@@ -1,17 +1,42 @@
 .dialogs{
     display: grid;
-    grid-template-columns: 2fr 10fr;
+    grid-template-columns: 50px 3fr 16fr;
+}
+
+.dialog{
+    line-height: 35px;
+    font-size: 20px;
 }
 
 .dialogsItems{
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 .dialogsItems .active{
     color: gold;
 }
 .messages{
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    
 }
 .message{
+    line-height: 35px;
+    font-size: 20px;
+}
 
+.userAvatar{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.avatarImage{
+    width: 35px;
+    border-radius: 50%;
 }

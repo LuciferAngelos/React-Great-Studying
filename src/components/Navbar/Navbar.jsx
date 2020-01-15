@@ -2,6 +2,8 @@ import React from 'react'
 import s from './Navbar.module.css'
 import { NavLink } from 'react-router-dom'
 
+import Friends from '../Friends/Friends'
+
 
 // let classes = {      //это выкидывает реакт и переименовывает самостоятельно, если есть совпадения
 //     'nav': 'Navbar_nav__AzQ2r',
@@ -22,7 +24,8 @@ import { NavLink } from 'react-router-dom'
 // npm i react-router-dom роутер реакта
 // npm i react-router-dom --save - устанавливает пакет и записывает о нём данные в package.json, чтобы при будущей установке установился и роутинг
 
-const Navbar = () => {
+const Navbar = (props) => {
+
     return (
         <nav className={s.nav}>
             <div className={s.item} >
@@ -42,6 +45,10 @@ const Navbar = () => {
             <div className={s.item}>
                 <NavLink to='settings' activeClassName={s.active}> Settings</NavLink>
             </div>
+            <div className={s.item}>
+                <NavLink to='/friends' activeClassName={s.active}> Friends</NavLink>
+            </div>
+            <Friends state={props.state.sitebar}/>
         </nav>
     )
 }

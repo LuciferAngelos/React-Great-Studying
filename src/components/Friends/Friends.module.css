@@ -1,0 +1,12 @@
+.friendList{
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+}
+.avatarImage{
+  width: 50px;
+  border-radius: 50%;
+  margin-right: 9px;
+}
