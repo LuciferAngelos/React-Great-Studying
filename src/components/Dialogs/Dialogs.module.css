@@ -1,6 +1,6 @@
 .dialogs{
     display: grid;
-    grid-template-columns: 50px 3fr 16fr;
+    grid-template-columns: 50px 3fr 10fr 6fr;
 }
 
 .dialog{
@@ -39,4 +39,18 @@
 .avatarImage{
     width: 35px;
     border-radius: 50%;
+}
+
+.answerArea{
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+.answer{
+
+}
+.addAnswer{
+    margin-left: 5px;
+    height: 25px;
+    border-radius: 5px;
 }

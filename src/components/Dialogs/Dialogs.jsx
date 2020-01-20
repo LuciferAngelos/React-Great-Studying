@@ -3,6 +3,7 @@ import s from './Dialogs.module.css'
 import Message from './Message/Message'
 import DialogItem from './DialogItem/DialogItem'
 import UserAvatar from './DialogItem/UserAvatar'
+import Answer from './Message/Answer'
 
 
 const Dialogs = (props) => {
@@ -12,6 +13,8 @@ const Dialogs = (props) => {
     let dialogsElements = props.state.dialogs.map(d => <DialogItem name={d.name} id={d.id} />)
 
     let messagesElements = props.state.messages.map(m => <Message message={m.message} />)
+
+    // let answerElement = 
 
     return (
         <div>
@@ -24,6 +27,15 @@ const Dialogs = (props) => {
                 </div>
                 <div className={s.messages}>
                     {messagesElements}
+                </div>
+                <div>
+                    <Answer />
+                    <Answer />
+                    <Answer />
+                    <Answer />
+                    <Answer />
+                    <Answer />
+                    
                 </div>
             </div>
         </div >
