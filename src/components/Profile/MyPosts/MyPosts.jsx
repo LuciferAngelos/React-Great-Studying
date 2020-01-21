@@ -16,6 +16,8 @@ const MyPosts = (props) => {
 
         let text = newPostElement.current.value;        //запрашиваем значение у конктерного элемента
         props.addPost(text)
+
+        newPostElement.current.value = '';
     }
 
     return (

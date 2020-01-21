@@ -1,3 +1,5 @@
+import {rerenderEntireTree} from '../render'
+
 let state = {       //пакуем данные в один объект
     profilePage: {       //группируем данные по компонентам
         posts: [     //оформляем данные в почти джейсон файл
@@ -149,7 +151,8 @@ let state = {       //пакуем данные в один объект
     }
 }
 
-export let addPost = (postMessage) => {
+export let addPost = (postMessage) => {     //создали функцию для получения данных из текстэреа после клика на кнопку. Получаем коллбэк-фкнкцию
+
     let newPost = {
         id: 5,
         message: postMessage,
@@ -157,6 +160,8 @@ export let addPost = (postMessage) => {
     };
 
     state.profilePage.posts.push(newPost);
+
+    rerenderEntireTree(state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
 }
 
 export default state
