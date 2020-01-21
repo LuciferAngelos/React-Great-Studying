@@ -1,6 +1,6 @@
 let state = {       //пакуем данные в один объект
-    profilePage:{       //группируем данные по компонентам
-        posts:[     //оформляем данные в почти джейсон файл
+    profilePage: {       //группируем данные по компонентам
+        posts: [     //оформляем данные в почти джейсон файл
             {
                 id: 1,
                 message: 'Hi! How are you?',
@@ -23,7 +23,7 @@ let state = {       //пакуем данные в один объект
             }
         ]
     },
-    dialogsPage:{
+    dialogsPage: {
         messages: [     //оформляем данные в почти джейсон файл
             {
                 id: 1,
@@ -76,7 +76,7 @@ let state = {       //пакуем данные в один объект
                 name: 'ПеДеомитя'
             }
         ],
-        userAvatar:[
+        userAvatar: [
             {
                 src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnjiwVkKQQlPupAlapBSv-p5LE0Rv7FpqAIaPHciIhpFqv3zOz&s',
                 alt: 'User`s Avatar!'
@@ -103,8 +103,8 @@ let state = {       //пакуем данные в один объект
             },
         ]
     },
-    sitebar:{
-        friendDatas:[     
+    sitebar: {
+        friendDatas: [
             {
                 id: 1,
                 name: 'Коля',
@@ -143,10 +143,20 @@ let state = {       //пакуем данные в один объект
             }
         ]
     },
-    friendList:{
-        
-        
+    friendList: {
+
+
     }
+}
+
+export let addPost = (postMessage) => {
+    let newPost = {
+        id: 5,
+        message: postMessage,
+        likesCount: 0
+    };
+
+    state.profilePage.posts.push(newPost);
 }
 
 export default state

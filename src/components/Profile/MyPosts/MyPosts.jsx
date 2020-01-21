@@ -13,8 +13,9 @@ const MyPosts = (props) => {
     let newPostElement = React.createRef()      //создаём ссылку и привязываем к конкретному textarea
 
     let addPost = () => {
+
         let text = newPostElement.current.value;        //запрашиваем значение у конктерного элемента
-        alert(text)
+        props.addPost(text)
     }
 
     return (

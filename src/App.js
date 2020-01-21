@@ -7,6 +7,9 @@ import Dialogs from './components/Dialogs/Dialogs';
 import { BrowserRouter, Route } from 'react-router-dom'
 import Friends from './components/Friends/Friends';
 
+
+
+
 let someComponent = () => <Dialogs />
 
 const App = (props) => {
@@ -25,15 +28,16 @@ const App = (props) => {
           <Route path='/settings' component={Settings} /> */}
 
 
-          <Route path='/dialogs' 
-          render={() => <Dialogs 
-          state={props.state.dialogsPage} />} />
-          <Route path='/profile' 
-          render={() => <Profile 
-          state={props.state.profilePage} />} />
-          <Route path='/friends' 
-          render={() => <Friends 
-          state={props.state.dialogsPage} />} />
+          <Route path='/dialogs'
+            render={() => <Dialogs
+              state={props.state.dialogsPage} />} />
+          <Route path='/profile'
+            render={() => <Profile
+              state={props.state.profilePage}
+              addPost={props.addPost} />} />
+          <Route path='/friends'
+            render={() => <Friends
+              state={props.state.dialogsPage} />} />
         </div>
       </div>
 
