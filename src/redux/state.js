@@ -1,4 +1,8 @@
-import {rerenderEntireTree} from '../render'
+
+
+let rerenderEntireTree = () => {
+    console.log('State changed')
+}
 
 let state = {       //пакуем данные в один объект
     profilePage: {       //группируем данные по компонентам
@@ -23,7 +27,8 @@ let state = {       //пакуем данные в один объект
                 message: 'It is the first post!',
                 likesCount: 1
             }
-        ]
+        ],
+        newPostText: 'Hello! You can post here!'
     },
     dialogsPage: {
         messages: [     //оформляем данные в почти джейсон файл
@@ -151,17 +156,33 @@ let state = {       //пакуем данные в один объект
     }
 }
 
-export let addPost = (postMessage) => {     //создали функцию для получения данных из текстэреа после клика на кнопку. Получаем коллбэк-фкнкцию
+export const addPost = () => {     //создали функцию для получения данных из текстэреа после клика на кнопку. Получаем коллбэк-фкнкцию
 
     let newPost = {
         id: 5,
-        message: postMessage,
+        message: state.profilePage.newPostText,
         likesCount: 0
     };
 
     state.profilePage.posts.push(newPost);
+    state.profilePage.newPostText = '';
 
     rerenderEntireTree(state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
 }
 
+export const updateNewPostText = (newText) => {     //создали функцию для получения данных из текстэреа после клика на кнопку. Получаем коллбэк-фкнкцию
+
+    state.profilePage.newPostText = newText;
+
+    rerenderEntireTree(state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
+}
+
+//обсервер. Наблюдатель. Слушатель. Ждём, когда изменится стейт ЮИ и присваиваем из index.js данные к функции-заглушке
+export const subscribe = (observer) => {
+    rerenderEntireTree = observer;      //паттерн observer-наблюдатель
+}
+
 export default state
+
+
+//store - ООП
