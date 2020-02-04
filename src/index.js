@@ -1,4 +1,4 @@
-import state, { subscribe } from './redux/state'
+import store from './redux/state'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -10,17 +10,17 @@ import { addPost, updateNewPostText } from './redux/state'   //использу�
 //создали дополнительный компонет, чтобы мы могли перерисовывать каждый раз страницу при изменении свойств. Т.к., в другом случае нужно было бы импортировать из стейта в индекс и из индекса в стейт, то была бы циклическая зависимость и это не хорошо. Поэтому создали ещё 1 компоненту, которая занимается этой обработкой.
 
 
-let rerenderEntireTree = (state) => {        //передаём state через свойства
+let rerenderEntireTree = (store) => {        //передаём state через свойства
     ReactDOM.render(<App
-        state={state}
-        addPost={addPost}
-        updateNewPostText={updateNewPostText}
+        state={store.getState()}
+        addPost={store.addPost}
+        updateNewPostText={store.updateNewPostText}
     />, document.getElementById('root'));
 
     serviceWorker.unregister();
 }
 
-rerenderEntireTree(state)       //отрисовали страницу
+rerenderEntireTree(store._state)       //отрисовали страницу
 
 subscribe(rerenderEntireTree);       //перериросываем весь СПА при изменении страницы
 
