@@ -1,5 +1,5 @@
 let store = {
-    _state = {       //пакуем данные в один объект
+    _state: {       //пакуем данные в один объект
         profilePage: {       //группируем данные по компонентам
             posts: [     //оформляем данные в почти джейсон файл
                 {
@@ -151,40 +151,38 @@ let store = {
         }
     },
     getState() {
-        return _state;
-    }
-        rerenderEntireTree = () => {
+        return this._state;
+    },
+    _callSubscriber() {
         console.log('State changed')
     },
-    addPost = () => {     //создали функцию для получения данных из текстэреа после клика на кнопку. Получаем коллбэк-фкнкцию
+    addPost() {    //создали функцию для получения данных из текстэреа после клика на кнопку. Получаем коллбэк-фкнкцию
 
         let newPost = {
             id: 5,
-            message: state.profilePage.newPostText,
+            message: this._state.profilePage.newPostText,
             likesCount: 0
         };
 
-        state.profilePage.posts.push(newPost);
-        state.profilePage.newPostText = '';
+        this._state.profilePage.posts.push(newPost);
+        this._state.profilePage.newPostText = '';
 
-        rerenderEntireTree(state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
+        this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
     },
-    updateNewPostText = (newText) => {     //создали функцию для получения данных из текстэреа после клика на кнопку. Получаем коллбэк-фкнкцию
+    updateNewPostText(newText) {     //создали функцию для получения данных из текстэреа после клика на кнопку. Получаем коллбэк-фкнкцию
 
-        state.profilePage.newPostText = newText;
+        this._state.profilePage.newPostText = newText;
 
-        rerenderEntireTree(state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
+        this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
     },
-    subscribe = (observer) => {
-        rerenderEntireTree = observer;      //паттерн observer-наблюдатель
+    subscribe(observer) {
+        this._callSubscriber = observer;      //паттерн observer-наблюдатель
     }
 }
 
 
 
 //обсервер. Наблюдатель. Слушатель. Ждём, когда изменится стейт ЮИ и присваиваем из index.js данные к функции-заглушке
-export const
-
 export default store
 window.store = store;
 
