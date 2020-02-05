@@ -18,7 +18,9 @@ const MyPosts = (props) => {
 
     let onPostChange = () => {
         let text = newPostElement.current.value;        //запрашиваем значение у конктерного элемента
-        props.dispatch({ type: 'UPDATE-NEW-POST-TEXT' })
+        let action = { type: 'UPDATE-NEW-POST-TEXT', newText: text };      //указываем обязательно newText, т.к. в стейте, т.е. в бизнесс-логике, в диспатче указано именно newText
+        
+        props.dispatch(action);     
     }
 
     return (

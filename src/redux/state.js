@@ -161,25 +161,6 @@ let store = {
         this._callSubscriber = observer;      //паттерн observer-наблюдатель
     },
 
-    addPost() {    //создали функцию для получения данных из текстэреа после клика на кнопку. Получаем коллбэк-фкнкцию
-
-        let newPost = {
-            id: 5,
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        };
-
-        this._state.profilePage.posts.push(newPost);
-        this._state.profilePage.newPostText = '';
-
-        this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
-    },
-    updateNewPostText(newText) {     //создали функцию для получения данных из текстэреа после клика на кнопку. Получаем коллбэк-фкнкцию
-
-        this._state.profilePage.newPostText = newText;
-
-        this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
-    },
     dispatch(action) {      //action - это всегда объект. Type - text. К примеру, action.type === 'ADD-POST'. Передаём метод текстом
         if (action.type === 'ADD-POST') {
             let newPost = {
