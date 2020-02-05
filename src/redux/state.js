@@ -150,12 +150,17 @@ let store = {
 
         }
     },
-    getState() {
-        return this._state;
-    },
     _callSubscriber() {
         console.log('State changed')
     },
+
+    getState() {
+        return this._state;
+    },
+    subscribe(observer) {
+        this._callSubscriber = observer;      //паттерн observer-наблюдатель
+    },
+
     addPost() {    //создали функцию для получения данных из текстэреа после клика на кнопку. Получаем коллбэк-фкнкцию
 
         let newPost = {
@@ -175,8 +180,10 @@ let store = {
 
         this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
     },
-    subscribe(observer) {
-        this._callSubscriber = observer;      //паттерн observer-наблюдатель
+    dispatch(action) {      //action - это всегда объект. Type - text.
+        if () {
+
+        }
     }
 }
 
