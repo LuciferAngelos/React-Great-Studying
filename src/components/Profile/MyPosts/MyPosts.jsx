@@ -13,12 +13,12 @@ const MyPosts = (props) => {
     let newPostElement = React.createRef()      //создаём ссылку и привязываем к конкретному textarea
 
     let addPost = () => {
-        props.addPost();
+        props.dispatch({ type: 'ADD-POST' });
     }
 
     let onPostChange = () => {
         let text = newPostElement.current.value;        //запрашиваем значение у конктерного элемента
-        props.updateNewPostText(text)
+        props.dispatch({ type: 'UPDATE-NEW-POST-TEXT' })
     }
 
     return (

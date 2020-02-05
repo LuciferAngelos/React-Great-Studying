@@ -12,8 +12,7 @@ import * as serviceWorker from './serviceWorker';
 let rerenderEntireTree = (state) => {        //передаём state через свойства
     ReactDOM.render(<App
         state={store.getState()}
-        addPost={store.addPost.bind(store)}     //указываем биандом, что данный метод будет привязываться именно к объекту стор
-        updateNewPostText={store.updateNewPostText.bind(store)}
+        dispatch={store.dispatch.bind(store)}     //указываем биандом, что данный метод будет привязываться именно к объекту стор
     />, document.getElementById('root'));
 
     serviceWorker.unregister();
