@@ -180,9 +180,22 @@ let store = {
 
         this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
     },
-    dispatch(action) {      //action - это всегда объект. Type - text.
-        if () {
+    dispatch(action) {      //action - это всегда объект. Type - text. К примеру, action.type === 'ADD-POST'. Передаём метод текстом
+        if (action.type === 'ADD-POST') {
+            let newPost = {
+                id: 5,
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
+            };
 
+            this._state.profilePage.posts.push(newPost);
+            this._state.profilePage.newPostText = '';
+
+            this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = newText;
+
+            this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
         }
     }
 }
