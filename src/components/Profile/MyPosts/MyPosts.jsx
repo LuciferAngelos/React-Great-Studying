@@ -1,6 +1,9 @@
 import React from 'react'
 import s from './MyPosts.module.css'
 import Post from './Post/Post'
+import {addPostActionCreator, updateNewPosttextActionCreator} from '../../../redux/state'
+
+
 
 
 const MyPosts = (props) => {
@@ -13,12 +16,12 @@ const MyPosts = (props) => {
     let newPostElement = React.createRef()      //создаём ссылку и привязываем к конкретному textarea
 
     let addPost = () => {
-        props.dispatch({ type: 'ADD-POST' });
+        props.dispatch(addPostActionCreator());
     }
 
     let onPostChange = () => {
         let text = newPostElement.current.value;        //запрашиваем значение у конктерного элемента
-        let action = { type: 'UPDATE-NEW-POST-TEXT', newText: text };      //указываем обязательно newText, т.к. в стейте, т.е. в бизнесс-логике, в диспатче указано именно newText
+        let action = updateNewPosttextActionCreator(text)
         
         props.dispatch(action);     
     }

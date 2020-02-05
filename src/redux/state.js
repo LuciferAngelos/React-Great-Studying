@@ -1,3 +1,6 @@
+const ADD_POST = 'ADD-POST';
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+
 let store = {
     _state: {       //пакуем данные в один объект
         profilePage: {       //группируем данные по компонентам
@@ -162,7 +165,7 @@ let store = {
     },
 
     dispatch(action) {      //action - это всегда объект. Type - text. К примеру, action.type === 'ADD-POST'. Передаём метод текстом
-        if (action.type === 'ADD-POST') {
+        if (action.type === 'ADD-POST') {       //по сути, тип - это строковая константа
             let newPost = {
                 id: 5,
                 message: this._state.profilePage.newPostText,
@@ -180,6 +183,20 @@ let store = {
         }
     }
 }
+
+
+export const addPostActionCreator = () => {      //создаём функцию для создания экшенов
+     return {
+        type: ADD_POST      
+    }
+}
+
+export const updateNewPosttextActionCreator = (text) => ({
+        type: UPDATE_NEW_POST_TEXT, newText: text       //указываем обязательно newText, т.к. в стейте, т.е. в бизнесс-логике, в диспатче указано именно newText
+
+})
+
+//в стрелочных функциях, если возвращается что-то одно, не тело функции, то можно убрать return. Но, т.к. здесь мы возвращаем объект, а в первую очередь функция обрабатывает фигурные скобки, как тело функции, то оборачиваем эти фигурные скобки в круглые
 
 
 
