@@ -1,5 +1,7 @@
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
+const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
+const SEND_MESSAGE = 'SEND-MESSAGE';
 
 let store = {
     _state: {       //пакуем данные в один объект
@@ -106,7 +108,8 @@ let store = {
                     src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzO9Grv30ae9fD7Fo7VG-XtoE6wIe69RWcgKC574mfQF0Wp-yzkA&s',
                     alt: 'User`s Avatar!'
                 },
-            ]
+            ],
+            newMessageBody: ''
         },
         sitebar: {
             friendDatas: [
@@ -165,7 +168,7 @@ let store = {
     },
 
     dispatch(action) {      //action - это всегда объект. Type - text. К примеру, action.type === 'ADD-POST'. Передаём метод текстом
-        if (action.type === 'ADD-POST') {       //по сути, тип - это строковая константа
+        if (action.type === ADD_POST) {       //по сути, тип - это строковая константа
             let newPost = {
                 id: 5,
                 message: this._state.profilePage.newPostText,
@@ -176,24 +179,48 @@ let store = {
             this._state.profilePage.newPostText = '';
 
             this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+        } else if (action.type === UPDATE_NEW_POST_TEXT) {
             this._state.profilePage.newPostText = action.newText;
 
             this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
+        } else if (action.type === UPDATE_NEW_MESSAGE_BODY) {
+            this._state.dialogsPage.newMessageBody = action.body;
+
+            this._callSubscriber(this._state);
+        } else if (action.type === SEND_MESSAGE) {
+            let body = this._state.dialogsPage.newMessageBody;
+            this._state.dialogsPage.newMessageBody = '';
+
+            this._state.dialogsPage.messages.push({
+                id: 6,
+                message: body
+            })
+
+            this._callSubscriber(this._state);
         }
     }
 }
 
 
 export const addPostActionCreator = () => {      //создаём функцию для создания экшенов
-     return {
-        type: ADD_POST      
+    return {
+        type: ADD_POST
     }
 }
 
 export const updateNewPosttextActionCreator = (text) => ({
-        type: UPDATE_NEW_POST_TEXT, newText: text       //указываем обязательно newText, т.к. в стейте, т.е. в бизнесс-логике, в диспатче указано именно newText
+    type: UPDATE_NEW_POST_TEXT, newText: text       //указываем обязательно newText, т.к. в стейте, т.е. в бизнесс-логике, в диспатче указано именно newText
 
+})
+
+export const sendMessageCreator = () => {
+    return {
+        type: SEND_MESSAGE
+    }
+}
+
+export const updateNewMessageBodyCreator = (body) => ({
+    type: UPDATE_NEW_MESSAGE_BODY, body: body
 })
 
 //в стрелочных функциях, если возвращается что-то одно, не тело функции, то можно убрать return. Но, т.к. здесь мы возвращаем объект, а в первую очередь функция обрабатывает фигурные скобки, как тело функции, то оборачиваем эти фигурные скобки в круглые

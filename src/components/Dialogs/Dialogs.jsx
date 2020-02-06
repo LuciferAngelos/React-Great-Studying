@@ -3,18 +3,29 @@ import s from './Dialogs.module.css'
 import Message from './Message/Message'
 import DialogItem from './DialogItem/DialogItem'
 import UserAvatar from './DialogItem/UserAvatar'
-import Answer from './Message/Answer'
+// import Answer from './Message/Answer'
+import { updateNewMessageBodyCreator, sendMessageCreator } from '../../redux/state'
 
 
 const Dialogs = (props) => {
 
-    let userAvatar = props.state.userAvatar.map(a => <UserAvatar src={a.src} alt={a.alt} />)
+    let state = props.store.getState().dialogsPage;
 
-    let dialogsElements = props.state.dialogs.map(d => <DialogItem name={d.name} id={d.id} />)
+    let userAvatar = state.userAvatar.map(a => <UserAvatar src={a.src} alt={a.alt} />)
 
-    let messagesElements = props.state.messages.map(m => <Message message={m.message} />)
+    let dialogsElements = state.dialogs.map(d => <DialogItem name={d.name} id={d.id} />)
 
-    // let answerElement = 
+    let messagesElements = state.messages.map(m => <Message message={m.message} />)
+    let newMessageBody = state.newMessageBody
+
+    let onSendMessageClick = () => {
+        props.store.dispatch(sendMessageCreator())
+    }
+    let onNewMessageChange = (e) => {       //передаём объект события
+        let body = e.target.value;
+        props.store.dispatch(updateNewMessageBodyCreator(body))
+    }
+
 
     return (
         <div>
@@ -26,17 +37,21 @@ const Dialogs = (props) => {
                     {dialogsElements}
                 </div>
                 <div className={s.messages}>
-                    {messagesElements}
+                    <div>{messagesElements}</div>
+                    <div>
+                        <div> <textarea placeholder='Возможно, стоит ответить?' value={newMessageBody} onChange={onNewMessageChange}></textarea> </div>
+                        <div><button onClick={onSendMessageClick}> Отправить</button></div>
+                    </div>
                 </div>
-                <div>
+                {/* <div>
                     <Answer />
                     <Answer />
                     <Answer />
                     <Answer />
                     <Answer />
                     <Answer />
-                    
-                </div>
+
+                </div> */}
             </div>
         </div >
     )
