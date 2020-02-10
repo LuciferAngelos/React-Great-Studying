@@ -1,7 +1,6 @@
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
-const SEND_MESSAGE = 'SEND-MESSAGE';
+import profileReducer from "./profile-reducer";
+import dialogsReducer from "./dialogs-reducer";
+import sitebarReducer from "./sitebar-reducer";
 
 let store = {
     _state: {       //пакуем данные в один объект
@@ -168,60 +167,22 @@ let store = {
     },
 
     dispatch(action) {      //action - это всегда объект. Type - text. К примеру, action.type === 'ADD-POST'. Передаём метод текстом
-        if (action.type === ADD_POST) {       //по сути, тип - это строковая константа
-            let newPost = {
-                id: 5,
-                message: this._state.profilePage.newPostText,
-                likesCount: 0
-            };
 
-            this._state.profilePage.posts.push(newPost);
-            this._state.profilePage.newPostText = '';
+    this._state.profilePage = profileReducer(this._state.profilePage, action);      //исходя из работы редьюсеров, мы к определённому свойству стейта присваиваем экспортированную функцию и передаём в неё состояние стейта и action
 
-            this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
-        } else if (action.type === UPDATE_NEW_POST_TEXT) {
-            this._state.profilePage.newPostText = action.newText;
+    this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
 
-            this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
-        } else if (action.type === UPDATE_NEW_MESSAGE_BODY) {
-            this._state.dialogsPage.newMessageBody = action.body;
+    this._state.sitebar = sitebarReducer(this._state.sitebar, action)
 
-            this._callSubscriber(this._state);
-        } else if (action.type === SEND_MESSAGE) {
-            let body = this._state.dialogsPage.newMessageBody;
-            this._state.dialogsPage.newMessageBody = '';
-
-            this._state.dialogsPage.messages.push({
-                id: 6,
-                message: body
-            })
-
-            this._callSubscriber(this._state);
-        }
+    this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
+      
     }
 }
 
 
-export const addPostActionCreator = () => {      //создаём функцию для создания экшенов
-    return {
-        type: ADD_POST
-    }
-}
 
-export const updateNewPosttextActionCreator = (text) => ({
-    type: UPDATE_NEW_POST_TEXT, newText: text       //указываем обязательно newText, т.к. в стейте, т.е. в бизнесс-логике, в диспатче указано именно newText
 
-})
 
-export const sendMessageCreator = () => {
-    return {
-        type: SEND_MESSAGE
-    }
-}
-
-export const updateNewMessageBodyCreator = (body) => ({
-    type: UPDATE_NEW_MESSAGE_BODY, body: body
-})
 
 //в стрелочных функциях, если возвращается что-то одно, не тело функции, то можно убрать return. Но, т.к. здесь мы возвращаем объект, а в первую очередь функция обрабатывает фигурные скобки, как тело функции, то оборачиваем эти фигурные скобки в круглые
 
@@ -233,3 +194,5 @@ window.store = store;
 
 
 //store - ООП
+
+//reducer - это чистая функция, которая принимает action, принимает кусок state, который относится к редьюсеру, если нужно применяет этот action применяет к этому стейту и возвращает новый стейт или возвращает стейт, который был не изменённым

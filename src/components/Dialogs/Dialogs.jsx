@@ -4,7 +4,7 @@ import Message from './Message/Message'
 import DialogItem from './DialogItem/DialogItem'
 import UserAvatar from './DialogItem/UserAvatar'
 // import Answer from './Message/Answer'
-import { updateNewMessageBodyCreator, sendMessageCreator } from '../../redux/state'
+import { updateNewMessageBodyCreator, sendMessageCreator } from '../../redux/dialogs-reducer'
 
 
 const Dialogs = (props) => {
@@ -39,8 +39,12 @@ const Dialogs = (props) => {
                 <div className={s.messages}>
                     <div>{messagesElements}</div>
                     <div>
-                        <div> <textarea placeholder='Возможно, стоит ответить?' value={newMessageBody} onChange={onNewMessageChange}></textarea> </div>
-                        <div><button onClick={onSendMessageClick}> Отправить</button></div>
+                        <div>
+                             <textarea placeholder='Возможно, стоит ответить?' value={newMessageBody} onChange={onNewMessageChange}></textarea> 
+                        </div>
+                        <div>
+                            <button onClick={onSendMessageClick}> Отправить</button>
+                        </div>
                     </div>
                 </div>
                 {/* <div>
