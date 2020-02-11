@@ -168,14 +168,14 @@ let store = {
 
     dispatch(action) {      //action - это всегда объект. Type - text. К примеру, action.type === 'ADD-POST'. Передаём метод текстом
 
-    this._state.profilePage = profileReducer(this._state.profilePage, action);      //исходя из работы редьюсеров, мы к определённому свойству стейта присваиваем экспортированную функцию и передаём в неё состояние стейта и action
+        this._state.profilePage = profileReducer(this._state.profilePage, action);      //исходя из работы редьюсеров, мы к определённому свойству стейта присваиваем экспортированную функцию и передаём в неё состояние стейта и action
 
-    this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
 
-    this._state.sitebar = sitebarReducer(this._state.sitebar, action)
+        this._state.sitebar = sitebarReducer(this._state.sitebar, action)
 
-    this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
-      
+        this._callSubscriber(this._state);       //перериросываем весь СПА при изменении страницы. Передаём в пропсах стейт
+
     }
 }
 
@@ -196,3 +196,5 @@ window.store = store;
 //store - ООП
 
 //reducer - это чистая функция, которая принимает action, принимает кусок state, который относится к редьюсеру, если нужно применяет этот action применяет к этому стейту и возвращает новый стейт или возвращает стейт, который был не изменённым
+
+// npm i redux --save устанавливаем редакс

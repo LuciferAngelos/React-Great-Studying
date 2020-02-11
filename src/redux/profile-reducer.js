@@ -1,9 +1,35 @@
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 
-export const profileReducer = (state, action) =>{      //приняли стейт, экшн
+let initialState = {
+    posts: [     //оформляем данные в почти джейсон файл
+        {
+            id: 1,
+            message: 'Hi! How are you?',
+            likesCount: 120
+        },
+        {
+            id: 2,
+            message: 'Go to the KFC!',
+            likesCount: 44
+        },
+        {
+            id: 3,
+            message: 'Хуллоу!',
+            likesCount: 5
+        },
+        {
+            id: 4,
+            message: 'It is the first post!',
+            likesCount: 1
+        }
+    ],
+    newPostText: 'Hello! You can post here!'
+}
 
-    switch (action.type){       //по сути, тип - это строковая константа
+const profileReducer = (state = initialState, action) => {      //приняли стейт, экшн
+
+    switch (action.type) {       //по сути, тип - это строковая константа
         case ADD_POST:
             let newPost = {
                 id: 5,
@@ -11,18 +37,18 @@ export const profileReducer = (state, action) =>{      //приняли стей
                 likesCount: 0
             };
             state.posts.push(newPost);
-        state.newPostText = '';
-        return state        //возвращает стейт
+            state.newPostText = '';
+            return state        //возвращает стейт
 
         case UPDATE_NEW_POST_TEXT:
             state.newPostText = action.newText;
             return state        //возвращает стейт
         default:
             return state
-    }  
+    }
 
     //не указываем брейк, потому что делаем return после каждого кейса    
-} 
+}
 
 export const addPostActionCreator = () => {      //создаём функцию для создания экшенов
     return {

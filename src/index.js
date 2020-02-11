@@ -1,4 +1,4 @@
-import store from './redux/state'
+import store from './redux/redux-store'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
@@ -29,7 +29,10 @@ let rerenderEntireTree = (state) => {        //передаём state через
 
 rerenderEntireTree(store.getState())       //отрисовали страницу
 
-store.subscribe(rerenderEntireTree);       //перериросываем весь СПА при изменении страницы
+store.subscribe(() => {
+    let state = store.getState();
+    rerenderEntireTree(state)
+});       //перериросываем весь СПА при изменении страницы
 
 serviceWorker.unregister();
 
