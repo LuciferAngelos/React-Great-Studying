@@ -56,7 +56,7 @@ export const addPostActionCreator = () => {      //создаём функцию
     }
 }
 
-export const updateNewPosttextActionCreator = (text) => ({
+export const updateNewPostTextActionCreator = (text) => ({
     type: UPDATE_NEW_POST_TEXT, newText: text       //указываем обязательно newText, т.к. в стейте, т.е. в бизнесс-логике, в диспатче указано именно newText
 
 })

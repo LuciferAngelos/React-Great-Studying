@@ -6,6 +6,7 @@ import Profile from './components/Profile/Profile';
 import Dialogs from './components/Dialogs/Dialogs';
 import { BrowserRouter, Route } from 'react-router-dom'
 import Friends from './components/Friends/Friends';
+import DialogsContainer from './components/Dialogs/DialogsContainer';
 
 
 
@@ -19,22 +20,14 @@ const App = (props) => {
       <Header />
       <Navbar state={props.state} />
       <div className='app-wrapper-content'>
-        {/* <Route path='/dialogs' component={Dialogs} /> */}   {/* указываем компонент, который будет обрабатываться на этом роуте. Exact - указывает то, что нужно перейти именно по этой ссылке */}
-        {/* <Route path='/profile' component={Profile} /> */}   {/* путь к странице */}
-        {/* <Route path='/news' component={News} />
-          <Route path='/music' component={Mucis} />
-          <Route path='/settings' component={Settings} /> */}
-
-
         <Route path='/dialogs'
-          render={() => <Dialogs
+          render={() => <DialogsContainer
             store={props.store}
           />} />
 
         <Route path='/profile'
           render={() => <Profile
-            profilePage={props.state.profilePage}
-            dispatch={props.dispatch}
+            store={props.store}
           />} />
         <Route path='/friends'
           render={() => <Friends
