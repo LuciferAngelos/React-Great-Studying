@@ -9,7 +9,7 @@ const Profile = (props) => {
     return (
         <div>
             <ProfileInfo />
-            <MyPostsContainer store={props.store} />       {/* прокидываем пропсы дальше в посты */}
+            <MyPostsContainer store={props.store} />       прокидываем пропсы дальше в посты
         </div>
     )
 }
