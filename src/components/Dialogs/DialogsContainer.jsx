@@ -6,31 +6,27 @@ import UserAvatar from './DialogItem/UserAvatar'
 // import Answer from './Message/Answer'
 import { updateNewMessageBodyCreator, sendMessageCreator } from '../../redux/dialogs-reducer'
 import Dialogs from './Dialogs'
-import StoreContext from '../../StoreContext'
+import { connect } from 'react-redux'
 
 
-const DialogsContainer = (props) => {
+let mapStateToProps = (state) => {
+    return {
+        dialogsPage: state.dialogsPage
+    }
+};
 
-    return <StoreContext.Consumer>
-        { //фигурные скобки ОБЯЗАТЕЛЬНО должны быть на новой строчке
-            (store) => {
-                let state = store.getState().dialogsPage;
-
-                let onSendMessageClick = () => {
-                    store.dispatch(sendMessageCreator())
-                }
-                let onNewMessageChange = (body) => {       //передаём объект события
-                    store.dispatch(updateNewMessageBodyCreator(body))
-                }
-
-                return <Dialogs updateNewMessageBody={onNewMessageChange}
-                    sendMessage={onSendMessageClick}
-                    dialogsPage={state}
-                />
-            }
+let mapDispatchToProps = (dispatch) => {
+    return {
+        updateNewMessageBody: () => {
+            dispatch(sendMessageCreator())
+        },
+        sendMessage: (body) => {
+            dispatch(updateNewMessageBodyCreator(body))
         }
-    </StoreContext.Consumer>
 
-}
+    }
+};
 
-export default DialogsContainer
+const DialogsContainer = connect(mapStateToProps, mapDispatchToProps) (Dialogs)      //вызвали функцию коннект, а затем вызываем ту функцию, которую вызвала функция connect. Законнектили компоненту Dialogs к стору
+
+export default DialogsContainer;
