@@ -17,16 +17,16 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        updateNewMessageBody: () => {
-            dispatch(sendMessageCreator())
+        updateNewMessageBody: (body) => {
+            dispatch(updateNewMessageBodyCreator(body))      //криэйтор вызываем. Нам нужно именно получить данные
         },
-        sendMessage: (body) => {
-            dispatch(updateNewMessageBodyCreator(body))
+        sendMessage: () => {
+            dispatch(sendMessageCreator())
         }
 
     }
 };
 
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps) (Dialogs)      //вызвали функцию коннект, а затем вызываем ту функцию, которую вызвала функция connect. Законнектили компоненту Dialogs к стору
+const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)      //вызвали функцию коннект, а затем вызываем ту функцию, которую вызвала функция connect. Законнектили компоненту Dialogs к стору
 
 export default DialogsContainer;

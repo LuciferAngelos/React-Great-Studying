@@ -4,7 +4,15 @@
   
   }
   
-  .header img{
-    width: 90px;
-  }
+.header img{
+  width: 90px;
+}
+.loginBlock{
+  margin-right: 10px;
+  float: right;
+}
+.loginLink{
+  color: #fff;
+}
+
   

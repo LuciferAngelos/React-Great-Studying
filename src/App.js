@@ -1,23 +1,20 @@
 import React from 'react';
 import './App.css';
-import Header from './components/Header/Header';
+import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar from './components/Navbar/Navbar';
-import Profile from './components/Profile/Profile';
-import Dialogs from './components/Dialogs/Dialogs';
-import { BrowserRouter, Route } from 'react-router-dom'
+import ProfileContainer from './components/Profile/ProfileContainer';
+import { Route } from 'react-router-dom'
 import Friends from './components/Friends/Friends';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
+import UsersContainer from './components/Users/UsersContainer';
 
 
-
-
-let someComponent = () => <Dialogs />
 
 const App = (props) => {
 
   return (
     <div className="app-wrapper">
-      <Header />
+      <HeaderContainer />
       <Navbar  /* state={props.state} */ />
       <div className='app-wrapper-content'>
         <Route path='/dialogs'
@@ -25,13 +22,17 @@ const App = (props) => {
           // store={props.store}
           />} />
 
-        <Route path='/profile'
-          render={() => <Profile
+        <Route path='/profile/:userId?'
+          render={() => <ProfileContainer
           // store={props.store}
           />} />
-        <Route path='/friends'
+        <Route path='/users'
+          render={() => <UsersContainer />} />
+        <Route path='/friend'
           render={() => <Friends
-            state={props.state.dialogsPage} />} />
+          // store={props.store}
+          />} />
+
       </div>
     </div>
 

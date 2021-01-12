@@ -4,19 +4,17 @@ import Message from './Message/Message'
 import DialogItem from './DialogItem/DialogItem'
 import UserAvatar from './DialogItem/UserAvatar'
 // import Answer from './Message/Answer'
-import { updateNewMessageBodyCreator, sendMessageCreator } from '../../redux/dialogs-reducer'
-
 
 const Dialogs = (props) => {
 
     let state = props.dialogsPage;
 
-    let userAvatar = state.userAvatar.map(a => <UserAvatar src={a.src} alt={a.alt} />)
+    let userAvatar = state.userAvatar.map(a => <UserAvatar src={a.src} alt={a.alt} key={a.id} />)
 
-    let dialogsElements = state.dialogs.map(d => <DialogItem name={d.name} id={d.id} />)
+    let dialogsElements = state.dialogs.map(d => <DialogItem name={d.name} id={d.id} key={d.id} />)
 
-    let messagesElements = state.messages.map(m => <Message message={m.message} />)
-    
+    let messagesElements = state.messages.map(m => <Message message={m.message} key={m.id} />)
+
     let newMessageBody = state.newMessageBody
 
     let onSendMessageClick = () => {
@@ -41,7 +39,7 @@ const Dialogs = (props) => {
                     <div>{messagesElements}</div>
                     <div>
                         <div>
-                             <textarea placeholder='Возможно, стоит ответить?' value={newMessageBody} onChange={onNewMessageChange}></textarea> 
+                            <textarea placeholder='Возможно, стоит ответить?' value={newMessageBody} onChange={onNewMessageChange}></textarea>
                         </div>
                         <div>
                             <button onClick={onSendMessageClick}> Отправить</button>

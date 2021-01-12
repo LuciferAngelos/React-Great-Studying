@@ -34,10 +34,10 @@ let rerenderEntireTree = (state) => {        //передаём state через
 
 rerenderEntireTree(store.getState())       //отрисовали страницу
 
-store.subscribe(() => {
-    let state = store.getState();
-    rerenderEntireTree(state)
-});       //перериросываем весь СПА при изменении страницы
+// store.subscribe(() => {
+//     let state = store.getState();
+//     rerenderEntireTree(state)
+// });       //перериросываем весь СПА при изменении страницы
 
 serviceWorker.unregister();
 
