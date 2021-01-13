@@ -35,29 +35,13 @@ let Users = (props) => {
                                 {u.followed
                                     ?
                                     <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                                        props.toggleFollowingProgress(true, u.id)
-                                        usersAPI.unfollow(u.id)
-                                            .then(data => {
-                                                if (data.resultCode === 0) {
-                                                    props.unfollow(u.id)        //если отписка произошла и сервер это подтвердил, то тогда отписка происходит. Запрос отправляется только после подтверждения сервером
-                                                }
-                                                props.toggleFollowingProgress(false, u.id)
-                                            });
-
+                                        props.unfollow(u.id)
                                     }}>
 
                                         Unfollow</button>
                                     :
                                     <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                                        props.toggleFollowingProgress(true, u.id)
-                                        usersAPI.follow(u.id)
-                                            .then(data => {
-                                                if (data.resultCode === 0) {
-                                                    props.follow(u.id)        //если подписка произошла и сервер это подтвердил, то тогда подписка происходит. Запрос отправляется только после подтверждения сервером
-                                                }
-                                                props.toggleFollowingProgress(false, u.id)
-                                            });
-
+                                        props.follow(u.id)
                                     }}>
                                         Follow</button>}
 
