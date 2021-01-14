@@ -7,6 +7,7 @@ import { Route } from 'react-router-dom'
 import Friends from './components/Friends/Friends';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import UsersContainer from './components/Users/UsersContainer';
+import Login from './Login/Login';
 
 
 
@@ -28,6 +29,8 @@ const App = (props) => {
           />} />
         <Route path='/users'
           render={() => <UsersContainer />} />
+        <Route path='/login'
+          render={() => <Login />} />
         <Route path='/friend'
           render={() => <Friends
           // store={props.store}

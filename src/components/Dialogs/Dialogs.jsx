@@ -3,6 +3,7 @@ import s from './Dialogs.module.css'
 import Message from './Message/Message'
 import DialogItem from './DialogItem/DialogItem'
 import UserAvatar from './DialogItem/UserAvatar'
+import { Redirect } from 'react-router-dom'
 // import Answer from './Message/Answer'
 
 const Dialogs = (props) => {
@@ -23,6 +24,10 @@ const Dialogs = (props) => {
     let onNewMessageChange = (e) => {       //передаём объект события
         let body = e.target.value;
         props.updateNewMessageBody(body);
+    }
+
+    if (!props.isAuth) {        //есои пользователь не залогинен, то его перекинет компонентой Redirect на страницу логина
+        return <Redirect to={'/login'} />
     }
 
 
