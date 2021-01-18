@@ -7,12 +7,13 @@ import UserAvatar from './DialogItem/UserAvatar'
 import { updateNewMessageBodyCreator, sendMessageCreator } from '../../redux/dialogs-reducer'
 import Dialogs from './Dialogs'
 import { connect } from 'react-redux'
+import { withAuthRedirect } from '../../hoc/withAuthRedirect'
+import { compose } from 'redux'
 
 
 let mapStateToProps = (state) => {
     return {
-        dialogsPage: state.dialogsPage,
-        isAuth: state.auth.isAuth
+        dialogsPage: state.dialogsPage
     }
 };
 
@@ -28,6 +29,14 @@ let mapDispatchToProps = (dispatch) => {
     }
 };
 
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)      //вызвали функцию коннект, а затем вызываем ту функцию, которую вызвала функция connect. Законнектили компоненту Dialogs к стору
+compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(Dialogs)
 
-export default DialogsContainer;
+//вызвали функцию коннект, а затем вызываем ту функцию, которую вызвала функция connect. Законнектили компоненту Dialogs к стору
+
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withAuthRedirect
+)(Dialogs);
