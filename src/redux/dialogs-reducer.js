@@ -1,4 +1,3 @@
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE-NEW-MESSAGE-BODY';
 const SEND_MESSAGE = 'SEND-MESSAGE';
 
 let initialState = {
@@ -85,23 +84,16 @@ let initialState = {
             src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzO9Grv30ae9fD7Fo7VG-XtoE6wIe69RWcgKC574mfQF0Wp-yzkA&s',
             alt: 'User`s Avatar!'
         },
-    ],
-    newMessageBody: ''
+    ]
 }
 
 const dialogsReducer = (state = initialState, action) => {      //приняли стейт, экшн
 
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_BODY:
-            return {
-                ...state,
-                newMessageBody: action.body
-            }; //копирование объекта в одну строчку через запятую
         case SEND_MESSAGE:
-            let body = state.newMessageBody;
+            let body = action.newMessageBody;
             return {
                 ...state,
-                newMessageBody: '',
                 messages: [...state.messages, {
                     id: 7,
                     message: body
@@ -112,14 +104,11 @@ const dialogsReducer = (state = initialState, action) => {      //приняли
     }
 }
 
-export const sendMessageCreator = () => {
+export const sendMessageCreator = (newMessageBody) => {
     return {
-        type: SEND_MESSAGE
+        type: SEND_MESSAGE, newMessageBody
     }
 }
 
-export const updateNewMessageBodyCreator = (body) => ({
-    type: UPDATE_NEW_MESSAGE_BODY, body: body
-})
 
 export default dialogsReducer

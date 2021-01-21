@@ -5,6 +5,7 @@ import sitebarReducer from "./sitebar-reducer";
 import usersReducer from './users-reduser';
 import authReducer from './auth-reducer';
 import thunkMiddleware from 'redux-thunk'
+import { reducer as formReducer } from 'redux-form'
 
 let reducers = combineReducers(//функция для объединения редьюсеров и передачи их в стор. Передаём редьюсеры
     {
@@ -12,7 +13,8 @@ let reducers = combineReducers(//функция для объединения р
         dialogsPage: dialogsReducer,
         sitebar: sitebarReducer,
         usersPage: usersReducer,
-        auth: authReducer
+        auth: authReducer,
+        form: formReducer       //здесь должно быть написанно именно form. 
     }
 )
 

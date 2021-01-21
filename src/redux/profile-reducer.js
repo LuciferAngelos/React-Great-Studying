@@ -3,7 +3,6 @@ import { profileAPI, usersAPI } from "../api/api";
 
 
 const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS'
 
@@ -30,7 +29,6 @@ let initialState = {
             likesCount: 1
         }
     ],
-    newPostText: 'Hello! You can post here!',
     profile: null,
     status: ''
 }
@@ -40,19 +38,13 @@ const profileReducer = (state = initialState, action) => {      //приняли
         case ADD_POST: {
             let newPost = {
                 id: 5,
-                message: state.newPostText,
+                message: action.newPostText,
                 likesCount: 0
             };
             return {
                 ...state,
                 posts: [...state.posts, newPost],
                 newPostText: ''
-            }
-        }
-        case UPDATE_NEW_POST_TEXT: {
-            return {
-                ...state,
-                newPostText: action.newText
             }
         }
         case SET_USER_PROFILE: {
@@ -77,16 +69,11 @@ const profileReducer = (state = initialState, action) => {      //приняли
 
 //action creator
 
-export const addPostActionCreator = () => {      //создаём функцию для создания экшенов
+export const addPostActionCreator = (newPostText) => {      //создаём функцию для создания экшенов
     return {
-        type: ADD_POST
+        type: ADD_POST, newPostText                 //указываем обязательно newText, т.к. в стейте, т.е. в бизнесс-логике, в диспатче указано именно newText
     }
 }
-
-export const updateNewPostTextActionCreator = (text) => ({
-    type: UPDATE_NEW_POST_TEXT, newText: text       //указываем обязательно newText, т.к. в стейте, т.е. в бизнесс-логике, в диспатче указано именно newText
-
-})
 export const setStatus = (status) => ({
     type: SET_STATUS, status
 })
