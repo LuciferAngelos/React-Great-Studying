@@ -5,7 +5,11 @@ import DialogItem from './DialogItem/DialogItem'
 import UserAvatar from './DialogItem/UserAvatar'
 import { Redirect } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
+import { Textarea } from '../common/FormsControl/FormsControls'
+import { maxLegnthCreator, required } from '../../utils/validators/validator'
 // import Answer from './Message/Answer'
+
+const maxLength50 = maxLegnthCreator(50)
 
 const Dialogs = (props) => {
 
@@ -53,7 +57,9 @@ const addMessageForm = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field placeholder={'Возможно, стоит ответить?'} name={"newMessageBody"} component={'textarea'} />
+                <Field placeholder={'Возможно, стоит ответить?'} name={"newMessageBody"} component={Textarea}
+                    validate={[required, maxLength50]}
+                />
             </div>
             <div>
                 <button> Отправить</button>

@@ -1,5 +1,11 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
+import { Input } from '../components/common/FormsControl/FormsControls'
+import { required } from '../utils/validators/validator'
+import { login } from '../redux/auth-reducer'
+import { Redirect } from 'react-router-dom'
+import s from '../components/common/FormsControl/FormsControl.module.css'
 
 
 const LoginForm = (props) => {
@@ -7,16 +13,19 @@ const LoginForm = (props) => {
         //компонента Field специально необходима для того, чтобы отрисовать те тэги, которые нам нужны в форме - input, textarea и т.д. Соответственно, далее мы указываем сам компонент, который нужно отрисовать - component={'...'}. Button не трогаем. props.handleSubmit - обработчик для сабмита формы - делает preventDefault, собирает все данные, вызывает функцию onSubmit и передаёт объект с данными
         <form action="" onSubmit={props.handleSubmit}>
             <div>
-                <Field type={"text"} name={'login'} placeholder={"Login"} component={"input"} />
+                <Field type={"text"} name={'email'} placeholder={"Email"} component={Input} validate={[required]} />
             </div>
             <div>
-                <Field type={"password"} name={"password"} id="" placeholder={"Password"} component={"input"} />
+                <Field type={"password"} name={"password"} id="" placeholder={"Password"} component={Input} validate={[required]} />
             </div>
             <div>
 
-                <Field type={"checkbox"} name={"rememberMe"} id="rememberMe" component={"input"} />
+                <Field type={"checkbox"} name={"rememberMe"} id="rememberMe" component={Input} />
                 <label htmlFor="rememberMe">Remember me</label>
             </div>
+            {props.error && <div className={s.formSummaryError}>
+                {props.error}
+            </div>}
             <div>
                 <button>Login</button>
             </div>
@@ -31,7 +40,11 @@ const LoginReduxForm = reduxForm({      //коннектим редаксовс�
 const Login = (props) => {
 
     const onSubmit = (formData) => {
-        console.log(formData);
+        props.login(formData.email, formData.password, formData.rememberMe)
+    }
+
+    if (props.isAuth) {
+        return <Redirect to={"/profile"} />
     }
 
     return (
@@ -42,4 +55,10 @@ const Login = (props) => {
     )
 }
 
-export default Login
+const mapStateToProps = (state) => ({
+    isAuth: state.auth.isAuth
+})
+
+export default connect(mapStateToProps, {
+    login
+})(Login)
