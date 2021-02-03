@@ -9,9 +9,19 @@ import Post from './Post/Post'
 
 const maxLength10 = maxLegnthCreator(10);
 
-const MyPosts = (props) => {
+const MyPosts = React.memo((props) => {
 
-    let postsElements = props.posts.map(p => <Post id={props.id} message={p.message} likesCount={p.likesCount} />)
+    //React.memo - то же самое, что и PureComponent. По сути, React.memo - HOC.
+
+    //PureComponent - компонента, которая сама проверяет за нас то, что ниже описано - проверка на изменение стейта или пропсов
+
+    // shouldComponentUpdate(nextProps, nextState) {       //говорим реакту то, что при попытке изменения стейта или пропсов, компоненту перерисовывать не нужно если указываем return false
+    //     return nextProps != this.props || nextState != this.state;     //нужно обновить компоненту только в том случае, если приходят новые пропсы или новый стейт
+    // }
+
+    console.log('rendered');
+
+    let postsElements = props.posts.map(p => <Post id={p.id} message={p.message} likesCount={p.likesCount} />)
 
 
     //ref`ы не рекомендуется использовать часто...
@@ -37,7 +47,7 @@ const MyPosts = (props) => {
             </div>
         </div>
     )
-}
+})
 
 const AddNewPostForm = (props) => {
     return (
