@@ -1,30 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import { Input } from '../components/common/FormsControl/FormsControls'
+import { createField, Input } from '../components/common/FormsControl/FormsControls'
 import { required } from '../utils/validators/validator'
 import { login } from '../redux/auth-reducer'
 import { Redirect } from 'react-router-dom'
 import s from '../components/common/FormsControl/FormsControl.module.css'
 
 
-const LoginForm = (props) => {
+const LoginForm = ({ handleSubmit, error }) => {        //деструктуризация в пропсах
     return (
         //компонента Field специально необходима для того, чтобы отрисовать те тэги, которые нам нужны в форме - input, textarea и т.д. Соответственно, далее мы указываем сам компонент, который нужно отрисовать - component={'...'}. Button не трогаем. props.handleSubmit - обработчик для сабмита формы - делает preventDefault, собирает все данные, вызывает функцию onSubmit и передаёт объект с данными
-        <form action="" onSubmit={props.handleSubmit}>
-            <div>
-                <Field type={"text"} name={'email'} placeholder={"Email"} component={Input} validate={[required]} />
-            </div>
-            <div>
-                <Field type={"password"} name={"password"} id="" placeholder={"Password"} component={Input} validate={[required]} />
-            </div>
-            <div>
+        <form action="" onSubmit={handleSubmit}>
+            {createField("Email", "email", [required], Input, "email", null, { type: "text" })}
+            {createField("Password", "password", [required], Input, "password", null, { type: "password" })}
+            {createField(null, "rememberMe", [], Input, "rememberMe", null, { type: "checkbox" })}
+            <label htmlFor="rememberMe">Remember me</label>
 
-                <Field type={"checkbox"} name={"rememberMe"} id="rememberMe" component={Input} />
-                <label htmlFor="rememberMe">Remember me</label>
-            </div>
-            {props.error && <div className={s.formSummaryError}>
-                {props.error}
+
+            {error && <div className={s.formSummaryError}>
+                {error}
             </div>}
             <div>
                 <button>Login</button>

@@ -1,4 +1,5 @@
 import { usersAPI } from "../api/api";
+import { updateObjectInArray } from "../utils/helpers/object-helpers";
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -23,23 +24,29 @@ const usersReducer = (state = initialState, action) => {
         case FOLLOW:
             return {
                 ...state,
-                users: state.users.map(user => {
-                    if (user.id === action.userId) {
-                        return { ...user, followed: true }
-                    }
-                    return user;
-                })
+                users: updateObjectInArray(state.users, action.userId, "id", { followed: true })
+
+                // users: state.users.map(user => {
+                //     if (user.id === action.userId) {
+                //         return { ...user, followed: true }
+                //     }
+                //     return user;
+                // })
             }
 
         case UNFOLLOW:
             return {
                 ...state,
-                users: state.users.map(user => {
-                    if (user.id === action.userId) {
-                        return { ...user, followed: false }
-                    }
-                    return user;
-                })
+                users: updateObjectInArray(state.users, action.userId, "id", { followed: false })
+
+
+
+                // users: state.users.map(user => {
+                //     if (user.id === action.userId) {
+                //         return { ...user, followed: false }
+                //     }
+                //     return user;
+                // })
             }
         case SET_USERS:
             return {
@@ -83,46 +90,47 @@ export const toggleIsFetching = (isFetching) => ({ type: TOGGLE_IS_FETCHING, isF
 export const toggleFollowingProgress = (isFetching, userId) => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching, userId });
 
 export const requestUsers = (page, pageSize) => {
-    return (dispatch) => {
+    return async (dispatch) => {
 
         dispatch(toggleIsFetching(true));
         dispatch(setCurrentPage(page))
 
-        usersAPI.getUsers(page, pageSize)
-            .then(data => {
-                dispatch(toggleIsFetching(false));
-                dispatch(setUsers(data.items));
-                dispatch(setTotalUsersCount(data.totalCount));
-            });
+        let data = await usersAPI.getUsers(page, pageSize);      //если thunk что-то возвращает, то результат его возврата мы записываем в переменную. Соответственно, мы записываем результат промиса
 
+        dispatch(toggleIsFetching(false));
+        dispatch(setUsers(data.items));
+        dispatch(setTotalUsersCount(data.totalCount));
     }
 }
+
+const followUnfollowFlow = async (dispatch, userId, apiMethod, actionCreator) => {
+    dispatch(toggleFollowingProgress(true, userId))
+    let data = await apiMethod(userId);        //если thunk что-то возвращает, то результат его возврата мы записываем в переменную. Соответственно, мы записываем результат промиса
+
+    if (data.resultCode === 0) {
+        dispatch(actionCreator(userId))        //если отписка произошла и сервер это подтвердил, то тогда отписка происходит. Запрос отправляется только после подтверждения сервером
+    }
+    dispatch(toggleFollowingProgress(false, userId))
+}
+
 export const follow = (userId) => {
-    return (dispatch) => {
+    return async (dispatch) => {
+        //производим рефакторинг, чтобы уменьшить код и вынести общие действия в третью функцию followUnfollowFlow. 
+        //Для этого мы выносим действия, которые относятся только к конкретной санке в переменные
+        let apiMethod = usersAPI.follow.bind(usersAPI);
+        let actionCreator = followSuccess;
 
-
-        dispatch(toggleFollowingProgress(true, userId))
-        usersAPI.follow(userId)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(followSuccess(userId))        //если отписка произошла и сервер это подтвердил, то тогда отписка происходит. Запрос отправляется только после подтверждения сервером
-                }
-                dispatch(toggleFollowingProgress(false, userId))
-            });
-
+        followUnfollowFlow(dispatch, userId, apiMethod, actionCreator)
     }
 }
 export const unfollow = (userId) => {
-    return (dispatch) => {
+    return async (dispatch) => {
+        //производим рефакторинг, чтобы уменьшить код и вынести общие действия в третью функцию followUnfollowFlow. 
+        //Для этого мы выносим действия, которые относятся только к конкретной санке в переменные
 
-        dispatch(toggleFollowingProgress(true, userId))
-        usersAPI.unfollow(userId)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(unfollowSuccess(userId))        //если отписка произошла и сервер это подтвердил, то тогда отписка происходит. Запрос отправляется только после подтверждения сервером
-                }
-                dispatch(toggleFollowingProgress(false, userId))
-            });
+        //можно не создавать отдельные переменные, а сразу передать методы в функцию. *** Имхо, в переменных выглядит нагляднее
+
+        followUnfollowFlow(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollowSuccess)
 
     }
 }

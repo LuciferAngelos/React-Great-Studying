@@ -4,7 +4,8 @@ import { profileAPI, usersAPI } from "../api/api";
 
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_STATUS = 'SET_STATUS'
+const SET_STATUS = 'SET_STATUS';
+const DELETE_POST = 'DELETE_POST';
 
 let initialState = {
     posts: [     //оформляем данные в почти джейсон файл
@@ -59,6 +60,12 @@ const profileReducer = (state = initialState, action) => {      //приняли
                 status: action.status
             }
         }
+        case DELETE_POST: {
+            return {
+                ...state,
+                posts: state.posts.filter(p => p.postId != action.postId)     //отфильтруем по ИД. Если ИД не равен action.postId, то 
+            }
+        }
         default:
             return state;
 
@@ -80,29 +87,27 @@ export const setStatus = (status) => ({
 export const setUserProfile = (profile) => ({
     type: SET_USER_PROFILE, profile
 })
+export const deletePost = (postId) => ({
+    type: DELETE_POST, postId
+})
 
 //thunk
-export const getUserProfile = (userId) => (dispatch) => {
-    usersAPI.getProfile(userId)
-        .then(response => {
-            dispatch(setUserProfile(response.data));
-        });
+export const getUserProfile = (userId) => async (dispatch) => {
+    let response = await usersAPI.getProfile(userId);        //если thunk что-то возвращает, то результат его возврата мы записываем в переменную. Соответственно, мы записываем результат промиса
+
+    dispatch(setUserProfile(response.data));
 }
 
-export const getStatus = (userId) => (dispatch) => {
-    profileAPI.getStatus(userId)
-        .then(response => {
-            dispatch(setStatus(response.data));
-        });
+export const getStatus = (userId) => async (dispatch) => {
+    let response = await profileAPI.getStatus(userId);       //если thunk что-то возвращает, то результат его возврата мы записываем в переменную. Соответственно, мы записываем результат промиса
+    dispatch(setStatus(response.data));
 }
 
-export const updateStatus = (status) => (dispatch) => {
-    profileAPI.updateStatus(status)
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setStatus(status));
-            }
-        });
+export const updateStatus = (status) => async (dispatch) => {
+    let response = await profileAPI.updateStatus(status);        //если thunk что-то возвращает, то результат его возврата мы записываем в переменную. Соответственно, мы записываем результат промиса
+    if (response.data.resultCode === 0) {
+        dispatch(setStatus(status));
+    }
 }
 
 export default profileReducer

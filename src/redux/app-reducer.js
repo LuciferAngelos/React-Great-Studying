@@ -24,7 +24,7 @@ const appReducer = (state = initialState, action) => {
 export const setInitializedSuccess = () => ({ type: INITIALIZED_SUCCESSED });
 //thunk
 export const initializeApp = () => (dispatch) => {
-    let promise = dispatch(getAuthUserData());
+    let promise = dispatch(getAuthUserData());      //если thunk что-то возвращает, то результат его возврата мы записываем в переменную. Соответственно, мы записываем результат промиса
 
     Promise.all([promise]).then(() => {       //Promise.all нужно для того, чтобы, когда будет много промисов, он вызывал их. Обрабатываем массив промисов
         dispatch(setInitializedSuccess());
