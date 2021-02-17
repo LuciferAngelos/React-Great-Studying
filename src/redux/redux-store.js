@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import sitebarReducer from "./sitebar-reducer";
@@ -20,9 +20,11 @@ let reducers = combineReducers(//функция для объединения р
     }
 )
 
-let store = createStore(reducers, applyMiddleware(thunkMiddleware));       //redux store
 
-window.store = store;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware)));     //redux store + подключили расширение для хрома Redux DevTools
+
+window.__store__ = store;
 
 export default store;
 

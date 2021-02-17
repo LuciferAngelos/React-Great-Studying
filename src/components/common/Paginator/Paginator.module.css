@@ -1,0 +1,8 @@
+.selectPage{
+    font-weight: bold;
+}
+.paginationWrapper{
+    width: 100%;
+    max-width: 900px;
+    word-wrap: break-word;
+}

@@ -3,16 +3,15 @@ import { Field } from 'redux-form'
 import s from './FormsControl.module.css'
 
 
-const FormControl = ({ input, meta, child, ...props }) => {
-    const hasError = meta.touched &&
-        meta.error  //если инпут был затронут и есть ошибка
+const FormControl = ({ input, meta: { touched, error }, child, children }) => {
+    const hasError = touched && error  //если инпут был затронут и есть ошибка
 
     //{props.child} - через child можно передать какие-то данные от ребёнка, т.е, от компоненты, которая будет пользоваться этой обёрткой
 
     return (
         <div className={`${s.formControl} ${hasError ? s.error : ""}`}>
-            {props.children}
-            {hasError && <span>{meta.error}</span>
+            {children}
+            {hasError && <span>{error}</span>
             }
         </div>
     )

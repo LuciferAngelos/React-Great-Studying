@@ -24,7 +24,7 @@ import Friends from '../Friends/Friends'
 // npm i react-router-dom роутер реакта
 // npm i react-router-dom --save - устанавливает пакет и записывает о нём данные в package.json, чтобы при будущей установке установился и роутинг
 
-const Navbar = (props) => {
+const Navbar = () => {
 
     return (
         <nav className={s.nav}>

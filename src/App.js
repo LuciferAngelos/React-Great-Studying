@@ -2,17 +2,28 @@ import React from 'react';
 import './App.css';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar from './components/Navbar/Navbar';
-import ProfileContainer from './components/Profile/ProfileContainer';
 import { Route, withRouter } from 'react-router-dom'
 import Friends from './components/Friends/Friends';
-import DialogsContainer from './components/Dialogs/DialogsContainer';
 import UsersContainer from './components/Users/UsersContainer';
 import Login from './Login/Login';
 import { initializeApp } from './redux/app-reducer'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Preloader from './components/common/Preloader/Preloader';
+import store from './redux/redux-store'
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { withSuspense } from './hoc/withSuspense';
 
+
+//реализуем lazy loading, он же React.Suspense
+//чтобы в бандл не загружались сразу те компоненты, которые нам не нужны сразу. Т.е., модули загрузятся только тогда, когда кликнут на то, что нужно
+
+// import UsersContainer from './components/Users/UsersContainer';
+//import ProfileContainer from './components/Profile/ProfileContainer';
+
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
 
 
 //чистые фукнции:
@@ -50,14 +61,10 @@ class App extends React.Component {
         <Navbar  /* state={props.state} */ />
         <div className='app-wrapper-content'>
           <Route path='/dialogs'
-            render={() => <DialogsContainer
-            // store={props.store}
-            />} />
-
+            render={withSuspense(DialogsContainer)}
+          />
           <Route path='/profile/:userId?'
-            render={() => <ProfileContainer
-            // store={props.store}
-            />} />
+            render={withSuspense(ProfileContainer)} />
           <Route path='/users'
             render={() => <UsersContainer />} />
           <Route path='/login'
@@ -79,8 +86,16 @@ const mapStateToProps = (state) => ({      //mapStateToProps - функция, �
   initialized: state.app.initialized
 })
 
-export default compose(
+let AppContainer = compose(
   withRouter,
   connect(mapStateToProps, { initializeApp }))(App)
 
+const SocialApp = () => {
+  return <BrowserRouter>     {/*  обрамление (оболочка, обертка) для того, чтобы роутинг работал. */}
+    <Provider store={store} >
+      <AppContainer />
+    </Provider>
+  </BrowserRouter >
+}
 
+export default SocialApp

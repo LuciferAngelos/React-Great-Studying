@@ -5,11 +5,3 @@
     border: 1px solid #afd345;
     margin: 10px;
 }
-.selectPage{
-    font-weight: bold;
-}
-.paginationWrapper{
-    width: 100%;
-    max-width: 900px;
-    word-wrap: break-word;
-}
